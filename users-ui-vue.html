@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+    <style>
+        
+        button {
+            width: 500px;
+            height: 40px;
+            background-color: var(--primary);
+            border: none;
+            outline: none;
+        }
+        #toggleOutput {
+            width: 490px;
+            height: auto;
+            background-color: var(--secondary);
+            border: none;
+            padding-left: 10px;
+            padding-top: 10px;
+            color: var(--accent);
+        }
+        .user {
+            margin-bottom: 15px;
+
+        }
+       
+    </style>
+</head>
+<body>
+    <div id="app">
+        <input v-on:change="changeColor('primary')" v-model="profiles.colors.primary"/>
+        <input v-on:change="changeColor('secondary')" v-model="profiles.colors.secondary"/>
+        <input v-on:change="changeColor('accent')" v-model="profiles.colors.accent"/>
+        <div class="user" v-for="(user, index) in formattedUsers">
+            <button v-on:click="displayUserInfo(index)"> 
+                {{user.firstName}} 
+                {{user.lastName}} 
+            </button>
+            <div id="toggleOutput" v-if="user.isToggled">
+                First Name: {{user.firstName}} <br><br>
+                Last Name: {{user.lastName}} <br><br>
+                Age: {{user.age}} <br><br>
+            </div> 
+        </div>
+    </div>
+    <script>
+        var app = new Vue({
+        el: '#app',
+        methods: {
+            displayUserInfo(index) {
+                console.log(index)
+                activeUserIndex = index;
+                this.formattedUsers[index].isToggled = !this.formattedUsers[index].isToggled;
+            },
+            changeColor(color) {
+                document.documentElement.style.setProperty(`--${color}`, color)
+            }
+        },
+        created() {
+            document.documentElement.style.setProperty('--primary', this.profiles.colors.primary)
+            document.documentElement.style.setProperty('--secondary', this.profiles.colors.secondary)
+            document.documentElement.style.setProperty('--accent', this.profiles.colors.accent)
+
+            this.formattedUsers = this.profiles.users.map(user => ({
+                ...user,
+                isToggled: false,
+                isChristian: true
+            }));
+            console.log(this.formattedUsers)
+        },
+        data: {
+            message: 'Hello Vue!',
+            formattedUsers: [],
+            profiles: {
+            "name": "users",
+            "colors": {
+                "primary": "#2C9E9E",
+                "secondary": "#ABCDEF",
+                "accent": "#FFFFFF"
+            },
+            "users": [
+                {
+                    "firstName": "Peyton",
+                    "lastName": "Critchfield",
+                    "age": 24
+                },
+                {
+                    "firstName": "Yvette",
+                    "lastName": "Critchfield",
+                    "age": 53
+                },
+                {
+                    "firstName": "Jake",
+                    "lastName": "Jones",
+                    "age": 28
+                },
+                {
+                    "firstName": "Jessa",
+                    "lastName": "Jones",
+                    "age": 27
+                }
+            ]
+            }
+        }
+        })
+    </script>
+</body>
+</html>
