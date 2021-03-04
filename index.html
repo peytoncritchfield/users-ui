@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* :root {
+            --primary: #345789;
+            --secondary: #DE45;
+            --accent: #67F2B7;
+        } */
+        
+        button {
+            width: 500px;
+            height: 40px;
+            background-color: var(--secondary);
+            border: none;
+        }
+        #toggleOutput {
+            width: 490px;
+            height: auto;
+            background-color: var(--accent);
+            border: none;
+            padding-left: 10px;
+            padding-top: 10px;
+            color: white;
+        }
+        .user {
+            margin-bottom: 15px;
+        }
+       
+    </style>
+</head>
+<body>
+
+    <div id="username"></div>
+    <div id="userInfo"></div>
+    
+      <script>
+          
+          const profiles = {
+            "name": "users",
+            "colors": {
+                "primary": "#2C9E9E",
+                "secondary": "#ABCDEF",
+                "accent": "#FAABAB"
+            },
+            "users": [
+                {
+                    "firstName": "Peyton",
+                    "lastName": "Critchfield",
+                    "age": 24
+                },
+                {
+                    "firstName": "Yvette",
+                    "lastName": "Critchfield",
+                    "age": 53
+                },
+                {
+                    "firstName": "Jake",
+                    "lastName": "Jones",
+                    "age": 28
+                },
+                {
+                    "firstName": "Jessa",
+                    "lastName": "Jones",
+                    "age": 27
+                }
+            ]
+        }
+
+        profiles.users.splice(1, 0, {
+            
+                    "firstName": "Meghan",
+                    "lastName": "Critchfield",
+                    "age": 25
+        })
+        
+        document.documentElement.style.setProperty('--primary', profiles.colors.primary)
+        document.documentElement.style.setProperty('--secondary', profiles.colors.secondary)
+        document.documentElement.style.setProperty('--accent', profiles.colors.accent)
+        // ^ Dynamic Coloring (setting colors in style using Javascript)
+
+        let activeUserIndex = 0;
+        let userInfo = document.getElementById("userInfo");
+        let username = document.getElementById("username");
+
+        let formattedUsers = profiles.users.map(user => ({
+            ...user,
+            isToggled: false,
+            isChristian: true
+        }));
+
+            console.log(formattedUsers);
+
+
+        function displayUserInfo(index) {
+            activeUserIndex = index;
+            formattedUsers[index].isToggled = !formattedUsers[index].isToggled;
+            loadUsers();
+        }
+
+        function loadUsers() {
+            username.innerHTML = "";
+            for (i = 0; i < formattedUsers.length; i++) {
+            activeUserIndex = i;
+            username.innerHTML += `<div class="user">`
+
+            username.innerHTML += `<button onclick="displayUserInfo(${i})"> 
+                ${formattedUsers[i].firstName} 
+                ${formattedUsers[i].lastName} 
+                </button>`;
+                if (formattedUsers[i].isToggled) {
+                    username.innerHTML += 
+                        `<div id="toggleOutput">
+                        First Name: ${profiles.users[i].firstName} <br><br>
+                        Last Name: ${profiles.users[i].lastName} <br><br>
+                        Age: ${profiles.users[i].age} <br><br>
+                        Christian: ${formattedUsers[i].isChristian}</div>`;
+                }
+
+                username.innerHTML += `</div>`
+            }
+        }
+
+        loadUsers();
+
+        
+        
+      </script>
+</body>
+</html>
