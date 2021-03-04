@@ -33,15 +33,15 @@
 </head>
 <body>
     <div id="app">
-        <input v-on:change="changeColor('primary')" v-model="profiles.colors.primary"/>
-        <input v-on:change="changeColor('secondary')" v-model="profiles.colors.secondary"/>
-        <input v-on:change="changeColor('accent')" v-model="profiles.colors.accent"/>
+        <input v-model="profiles.colors.primary"/>
+        <input v-model="profiles.colors.secondary"/>
+
         <div class="user" v-for="(user, index) in formattedUsers">
-            <button v-on:click="displayUserInfo(index)"> 
+            <button v-on:click="displayUserInfo(index)" :style="`background-color: ${ profiles.colors.primary }`"> 
                 {{user.firstName}} 
                 {{user.lastName}} 
             </button>
-            <div id="toggleOutput" v-if="user.isToggled">
+            <div id="toggleOutput" v-if="user.isToggled" :style="`background-color: ${ profiles.colors.secondary }`">
                 First Name: {{user.firstName}} <br><br>
                 Last Name: {{user.lastName}} <br><br>
                 Age: {{user.age}} <br><br>
@@ -58,11 +58,12 @@
                 this.formattedUsers[index].isToggled = !this.formattedUsers[index].isToggled;
             },
             changeColor(color) {
-                document.documentElement.style.setProperty(`--${color}`, color)
+
+                // document.documentElement.style.setProperty(`--${color}`, color)
             }
         },
         created() {
-            document.documentElement.style.setProperty('--primary', this.profiles.colors.primary)
+            // document.documentElement.style.setProperty('--primary', this.profiles.colors.primary)
             document.documentElement.style.setProperty('--secondary', this.profiles.colors.secondary)
             document.documentElement.style.setProperty('--accent', this.profiles.colors.accent)
 
